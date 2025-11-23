@@ -6,7 +6,7 @@
 
 ValPanel is a lightweight control plane for running multiple Valheim dedicated servers on a single host. It wraps the excellent [`lloesche/valheim-server`](https://hub.docker.com/r/lloesche/valheim-server) image with a modern Flask backend, SQLite persistence, and a sleek dashboard so you can create, restart, and monitor worlds without touching SSH.
 
-> _Add your favorite screenshot or hero image here to show the dashboard in action._
+![ValPanel dashboard hero](valpanel-banner.svg)
 
 ---
 ## Table of Contents
