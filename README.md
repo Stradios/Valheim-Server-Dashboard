@@ -1,82 +1,193 @@
-# Valheim Server Dashboard
+📘 ValPanel – Valheim Server Dashboard
 
-Self-hosted control panel for spinning up and supervising multiple Valheim dedicated servers on a single host. The panel is built with Flask, persists state in SQLite (or any SQLAlchemy compatible database), and orchestrates `lloesche/valheim-server` containers through the Docker Engine API.
+ValPanel is a lightweight, modern web dashboard for deploying and managing multiple Valheim dedicated servers using the lloesche/valheim-server Docker image.
 
-## Features
-- Multi-server orchestration with automatic, non-overlapping UDP port allocation
-- First-run guard that requires an admin account before the panel becomes accessible
-- Role-based access control (admin and moderator) with invite tokens
-- REST API and lightweight dashboard for creating, starting, stopping, restarting, and deleting servers
-- Dedicated data folders per world (config, save data, and backups)
-- Server log streaming via the API for quick troubleshooting
+It is built for CasaOS, TrueNAS SCALE, Docker, and Proxmox users who want a simple but powerful web interface to control servers, assign ports, manage configs, and restart crashed instances — all without SSH.
 
-## Project Layout
-- `app/` – Flask application, models, templates, and Dockerfile
-- `servers/` – Default location for per-server config/world/backup directories
-- `data/` – Default SQLite database location when running in Docker
-- `valpanel.yaml` – Example Docker Compose manifest for building and running the panel
-- `gpl-3.0.txt` – License text (GNU GPL v3)
 
-## Quick Start (Docker)
-1. Ensure Docker Engine is installed and that the daemon can reach the internet to pull `lloesche/valheim-server`.
-2. Clone this repository and change into it.
-3. Edit `valpanel.yaml` to match your host paths (the example assumes everything lives under `/mnt/apps/valpanel`).
-4. Launch the panel:
-   ```bash
-   docker compose -f valpanel.yaml up -d
-   ```
-5. Visit `http://<host>:8000/setup` to create the first admin user. Once an admin exists, the login page becomes available.
+(optional – add your own banner image later)
 
-While running via Docker you must mount:
-- `/var/run/docker.sock` (the panel uses the Docker SDK to manage Valheim containers)
-- A persistent folder for `/app/data` (SQLite database) and `/servers` (world data/backups)
+🚀 Features (v0.3 Stable)
+✔ Multi-Server Management
 
-## Local Development (Python)
-1. Install Python 3.12+ and Docker.
-2. Create a virtual environment inside `app/` and install dependencies:
-   ```bash
-   cd app
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
-   ```
-3. Export the environment variables you need (see the next section) and point `DATA_ROOT` somewhere writable on your machine.
-4. Start the development server:
-   ```bash
-   python app.py
-   ```
-5. In another terminal, create the admin user through `http://localhost:8000/setup` or via `POST /api/setup/admin`.
+Create and run multiple Valheim servers simultaneously using the same host.
 
-## Configuration
-Most behavior is controlled through environment variables (all optional, sane defaults shown):
+✔ Auto Port Allocation
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `PANEL_PORT` | `8000` | HTTP port exposed by the Flask app |
-| `DATABASE_URL` | `sqlite:////app/data/valpanel.db` | SQLAlchemy connection string |
-| `SECRET_KEY` | `dev-change-me` | Flask session secret – override in production |
-| `VALHEIM_IMAGE` | `lloesche/valheim-server` | Docker image used for each game server |
-| `VALHEIM_PORT_RANGE_START` | `24560` | First UDP port available for allocation |
-| `VALHEIM_PORT_RANGE_END` | `24660` | Last UDP port in the pool |
-| `VALHEIM_PORT_BLOCK_SIZE` | `3` | Number of contiguous ports reserved per server |
-| `DATA_ROOT` | `/servers` | Host path mounted into containers to store config/world/backups |
-| `TZ` | `Europe/Stockholm` | Time zone propagated to the Valheim containers |
-| `PUBLIC_BASE_URL` | _(empty)_ | If set, invite URLs will be absolute using this base |
+Automatically assigns ports from a configurable range with 3-port blocks.
 
-## First-Time Experience
-1. Start the panel (Docker or local).
-2. Navigate to `/setup` and create the initial admin account.
-3. Use the dashboard to add Valheim worlds. The panel automatically provisions data folders under `DATA_ROOT` and launches a Docker container per world.
-4. Invite moderators through `POST /api/invites` or the UI. Invited users finish registration through `/register?token=<token>`.
+✔ Start / Stop / Restart Controls
 
-## API + Dashboard Highlights
-- `GET /api/servers` – List servers and their Docker status
-- `POST /api/servers` – Create a new server (admin only)
-- `POST /api/servers/<id>/(start|stop|restart)` – Control lifecycle
-- `DELETE /api/servers/<id>` – Remove server, container, and data (admin only)
-- `GET /api/servers/<id>/logs` – Tail recent container logs
+Manage each instance directly from the dashboard.
 
-Every endpoint enforces authentication and role checks. The bundled Jinja templates (`/setup`, `/login`, `/dashboard`) consume these APIs, so you can either use the built-in UI or integrate the backend with your own frontend.
+✔ Crash-Safe Restarts
 
-## License
-Released under the GNU General Public License v3.0. See `gpl-3.0.txt` for details.
+If a server becomes unresponsive, ValPanel lets admins restart it instantly.
+
+✔ SQLite Database
+
+Panel settings and server entries are saved persistently.
+
+✔ No SSH Needed
+
+Everything is controlled through Docker from the web UI.
+
+✔ Built for CasaOS, TrueNAS, Unraid, Proxmox & Linux Hosts
+
+Fully compatible with /var/run/docker.sock communication.
+
+✔ Roles: Admin & Moderator
+
+Admin: Full control (create, delete, restart servers)
+
+Moderator: Manage permissions & restart servers
+
+🧩 Architecture
+
+ValPanel runs as a single Docker container containing:
+
+Python 3.11
+
+Flask
+
+SQLAlchemy
+
+Docker SDK for Python
+
+HTML/CSS dashboard
+
+SQLite DB
+
+REST API for future expansion
+
+Valheim servers are created as separate containers, each fully isolated.
+
+📦 Installation (Docker)
+Quick Start
+docker run -d \
+  --name valpanel \
+  -p 8000:8000 \
+  -e TZ=Europe/Stockholm \
+  -e PANEL_PORT=8000 \
+  -e VALHEIM_IMAGE=lloesche/valheim-server \
+  -e VALHEIM_PORT_RANGE_START=24560 \
+  -e VALHEIM_PORT_RANGE_END=24660 \
+  -e VALHEIM_PORT_BLOCK_SIZE=3 \
+  -e DATA_ROOT=/mnt/apps/valpanel/servers \
+  -v /mnt/apps/valpanel/data:/app/data \
+  -v /mnt/apps/valpanel/servers:/mnt/apps/valpanel/servers \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  stradios/valpanel:latest
+
+
+Then open:
+
+👉 http://localhost:8000
+
+🐳 docker-compose.yml example
+version: "3.8"
+
+services:
+  valpanel:
+    image: stradios/valpanel:latest
+    container_name: valpanel
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      - TZ=Europe/Stockholm
+      - PANEL_PORT=8000
+      - VALHEIM_IMAGE=lloesche/valheim-server
+      - VALHEIM_PORT_RANGE_START=24560
+      - VALHEIM_PORT_RANGE_END=24660
+      - VALHEIM_PORT_BLOCK_SIZE=3
+      - DATA_ROOT=/mnt/apps/valpanel/servers
+
+    volumes:
+      - /mnt/apps/valpanel/data:/app/data
+      - /mnt/apps/valpanel/servers:/mnt/apps/valpanel/servers
+      - /var/run/docker.sock:/var/run/docker.sock
+
+📁 Project Structure
+valpanel/
+│
+├── app/
+│   ├── app.py               # Main Flask app
+│   ├── config.py            # Config + port ranges
+│   ├── models.py            # SQLAlchemy database models
+│   ├── docker_manager.py    # Docker API wrapper
+│   ├── templates/           # HTML views
+│   ├── static/              # CSS/JS
+│   ├── Dockerfile           # Build instructions
+│
+├── data/                    # SQLite database (bind-mounted)
+├── servers/                 # Server definitions + world configs
+│
+├── valpanel-compose.yml     # Example compose
+├── LICENSE                  # GPL-3.0 License
+└── README.md                # This file
+
+🔒 License (GPL-3.0)
+
+ValPanel is released under the GNU General Public License v3.0, which means:
+
+✔ You may use it
+✔ You may modify it
+✔ You may contribute to it
+❗You may NOT rebrand it into closed-source paid software
+
+This protects the community and ensures ValPanel stays open-source.
+
+🤝 Contributing
+
+Contributions are very welcome!
+
+If you'd like to help:
+
+Fork the repo
+
+Create a feature branch
+
+Commit + push changes
+
+Open a Pull Request
+
+You can also join discussions under Issues.
+
+🗂 Roadmap
+v0.4 (Next)
+
+Server logs tab
+
+Real-time server status polling
+
+Player count detection (UDP query research ongoing)
+
+Delete/Restart modals (UI polish)
+
+Automated backups from Panel
+
+v1.0
+
+Full admin/moderator role system
+
+World auto-install presets
+
+Plugin and mods support
+
+Cloud storage backups
+
+REST API for external tools
+
+Theme system (dark/light mode)
+
+❤️ Credits
+
+ValPanel is created and maintained by:
+
+Theodor Veres (Stradios)
+Founder of Nort-Sun Gaming Community
+Creator of ValPanel
+https://www.nort-sun.com
