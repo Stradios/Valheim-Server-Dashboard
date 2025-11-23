@@ -1,0 +1,21 @@
+services:
+  valpanel:
+    build: /mnt/apps/valpanel/app
+    container_name: valpanel
+    environment:
+      - TZ=Europe/Stockholm
+      - PANEL_PORT=8000
+      - VALHEIM_IMAGE=lloesche/valheim-server
+      - VALHEIM_PORT_RANGE_START=24560
+      - VALHEIM_PORT_RANGE_END=24660
+      - VALHEIM_PORT_BLOCK_SIZE=3
+      - DATA_ROOT=/mnt/apps/valpanel/servers
+    image: valpanel:latest
+    ports:
+      - '8000:8000'
+    restart: unless-stopped
+    volumes:
+      - /mnt/apps/valpanel/data:/app/data
+      - /mnt/apps/valpanel/servers:/mnt/apps/valpanel/servers
+      - /var/run/docker.sock:/var/run/docker.sock
+version: '3.8'

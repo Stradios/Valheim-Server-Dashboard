@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Login • ValPanel{% endblock %}
+
+{% block content %}
+<div class="page-header" style="text-align:center; margin-bottom:2.2rem;">
+  <div class="page-eyebrow">Sign in</div>
+  <h1 class="page-title">Login to ValPanel</h1>
+  <p class="page-subtitle" style="margin: 0 auto; max-width: 28rem;">
+    Use your admin or moderator credentials. If you don’t have an account,
+    ask an admin for an invite link.
+  </p>
+</div>
+
+<div class="card card-narrow">
+  <div id="login-alert" class="alert" style="display:none;"></div>
+
+  <form id="login-form">
+    <div class="form-grid">
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <span class="icon">🔑</span> Login
+      </button>
+      <p class="form-note">
+        Sessions are stored in your browser. Logout when using shared machines.
+      </p>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script>
+  const loginForm = document.getElementById('login-form');
+  const loginAlert = document.getElementById('login-alert');
+
+  function showLoginMessage(msg, type) {
+    loginAlert.textContent = msg;
+    loginAlert.className = 'alert ' + (type === 'error' ? 'alert-error' : 'alert-success');
+    loginAlert.style.display = 'block';
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginAlert.style.display = 'none';
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showLoginMessage(data.error || 'Login failed.', 'error');
+        return;
+      }
+
+      showLoginMessage('Logged in, redirecting…', 'success');
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 600);
+    } catch (err) {
+      console.error(err);
+      showLoginMessage('Unexpected error. Check console.', 'error');
+    }
+  });
+</script>
+{% endblock %}
+

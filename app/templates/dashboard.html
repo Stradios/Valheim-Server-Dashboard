@@ -1,0 +1,639 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard • ValPanel{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="page-eyebrow">Overview</div>
+  <h1 class="page-title">Valheim Servers</h1>
+  <p class="page-subtitle">
+    Manage all Valheim instances running under this panel. Start, stop, restart servers
+    and see quick status at a glance. More details (logs, backups, tasks) can be added later.
+  </p>
+</div>
+
+<div id="dashboard-alert" class="alert" style="display:none;"></div>
+
+<div class="card" id="servers">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.9rem;">
+    <h2 style="font-size:1rem; text-transform:uppercase; letter-spacing:0.12em;">Servers</h2>
+    {% if current_user and current_user.role == 'admin' %}
+      <button class="btn btn-primary" id="btn-new-server">
+        <span class="icon">➕</span> New Server
+      </button>
+    {% endif %}
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table id="servers-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>World</th>
+          <th>Ports</th>
+          <th>Status</th>
+          <th style="text-align:right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filled by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <p class="form-note" style="margin-top:0.7rem;">
+    Servers use the configured port pool. Each instance takes a 3-port block (UDP).
+  </p>
+</div>
+
+<!-- "new server" card -->
+<div class="card card-narrow" id="new-server-card" style="margin-top:1.6rem; display:none;">
+  <h2 style="font-size:1rem; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.7rem;">
+    Create New Server
+  </h2>
+
+  <div id="new-server-alert" class="alert" style="display:none;"></div>
+
+  <form id="new-server-form">
+    <div class="form-grid">
+      <div>
+        <label for="ns-name">Server Name</label>
+        <input id="ns-name" name="name" type="text" required placeholder="You're Server Name">
+      </div>
+      <div>
+        <label for="ns-world">World Name</label>
+        <input id="ns-world" name="world_name" type="text" required placeholder="You're Server Worl's Name">
+      </div>
+      <div>
+        <label for="ns-password">Password</label>
+        <input id="ns-password" name="password" type="password" required placeholder="Game Worl's Password">
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <span class="icon">⚔️</span> Create & Start
+      </button>
+      <button type="button" class="btn btn-ghost" id="ns-cancel">
+        Cancel
+      </button>
+      <p class="form-note">
+        Ports will be allocated automatically from the configured pool.
+      </p>
+    </div>
+  </form>
+</div>
+
+{% if current_user and current_user.role == 'admin' %}
+<!-- Delete server modal -->
+<div id="delete-modal-backdrop" class="modal-backdrop" style="display:none;">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+    <div class="modal-header">
+      <h2 id="delete-modal-title">Delete server</h2>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:0.6rem;">
+        Are you sure you want to delete the server
+        <strong id="delete-modal-name"></strong>?
+      </p>
+      <p class="form-note" style="margin-bottom:0.4rem;">
+        This will:
+      </p>
+      <ul class="modal-list">
+        <li>Stop and remove the Docker container</li>
+        <li>Delete its files on disk</li>
+        <li>Remove it from this panel</li>
+      </ul>
+      <p class="form-note" style="margin-top:0.4rem;">
+        This action <strong>cannot be undone</strong>.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ghost" id="delete-modal-cancel">Cancel</button>
+      <button type="button" class="btn btn-danger" id="delete-modal-confirm">
+        Delete server
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Restart server modal -->
+<div id="restart-modal-backdrop" class="modal-backdrop" style="display:none;">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="restart-modal-title">
+    <div class="modal-header">
+      <h2 id="restart-modal-title">Restart server</h2>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:0.6rem;">
+        Are you sure you want to restart the server
+        <strong id="restart-modal-name"></strong>?
+      </p>
+      <p class="form-note" style="margin-bottom:0.4rem;">
+        This will:
+      </p>
+      <ul class="modal-list">
+        <li>Immediately restart the server container</li>
+        <li>Disconnect all current players</li>
+        <li>Apply any pending config changes</li>
+      </ul>
+      <p class="form-note" style="margin-top:0.4rem;">
+        Players may experience temporary downtime.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ghost" id="restart-modal-cancel">Cancel</button>
+      <button type="button" class="btn btn-primary" id="restart-modal-confirm">
+        Restart server
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Stop server modal -->
+<div id="stop-modal-backdrop" class="modal-backdrop" style="display:none;">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="stop-modal-title">
+    <div class="modal-header">
+      <h2 id="stop-modal-title">Stop server</h2>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:0.6rem;">
+        Are you sure you want to stop the server
+        <strong id="stop-modal-name"></strong>?
+      </p>
+      <p class="form-note" style="margin-bottom:0.4rem;">
+        This will:
+      </p>
+      <ul class="modal-list">
+        <li>Gracefully stop the server container</li>
+        <li>Disconnect all current players</li>
+      </ul>
+      <p class="form-note" style="margin-top:0.4rem;">
+        You can start it again from this panel at any time.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ghost" id="stop-modal-cancel">Cancel</button>
+      <button type="button" class="btn btn-danger" id="stop-modal-confirm">
+        Stop server
+      </button>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block body_extra %}
+<style>
+  /* Modal styling shared by delete / restart / stop */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  .modal-dialog {
+    background: var(--card-bg, #15161d);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .modal-header h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .modal-body {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+  }
+  .modal-list {
+    margin: 0 0 0.2rem 1.1rem;
+    padding: 0;
+    font-size: 0.86rem;
+  }
+  .modal-footer {
+    margin-top: 1.1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+  }
+</style>
+
+<script>
+  const serversTableBody = document.querySelector('#servers-table tbody');
+  const dashAlert = document.getElementById('dashboard-alert');
+
+  function showDashMessage(msg, type) {
+    dashAlert.textContent = msg;
+    dashAlert.className = 'alert ' + (type === 'error' ? 'alert-error' : 'alert-success');
+    dashAlert.style.display = 'block';
+  }
+
+  function statusBadge(status) {
+    status = (status || '').toLowerCase();
+    const cls = status === 'running' ? 'badge badge-running' : 'badge badge-missing';
+    const label = status || 'unknown';
+    return `<span class="${cls}">${label}</span>`;
+  }
+
+  function renderServers(servers) {
+    serversTableBody.innerHTML = '';
+
+    if (!servers.length) {
+      serversTableBody.innerHTML = `
+        <tr>
+          <td colspan="5" style="padding:0.8rem 0.4rem; font-size:0.86rem; color:var(--text-muted);">
+            No servers yet. Create one with the <strong>New Server</strong> button.
+          </td>
+        </tr>`;
+      return;
+    }
+
+    for (const s of servers) {
+      const basePort = s.base_port;
+      const portsStr = `${basePort}, ${basePort+1}, ${basePort+2}`;
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${s.name}</td>
+        <td>${s.world_name}</td>
+        <td class="ip-monospaced">${portsStr}</td>
+        <td>${statusBadge(s.container_status)}</td>
+        <td style="text-align:right;">
+          <button class="btn btn-ghost btn-sm" data-action="start" data-id="${s.id}" data-name="${s.name}">Start</button>
+          <button class="btn btn-ghost btn-sm" data-action="stop" data-id="${s.id}" data-name="${s.name}">Stop</button>
+          <button class="btn btn-ghost btn-sm" data-action="restart" data-id="${s.id}" data-name="${s.name}">Restart</button>
+
+          {% if current_user and current_user.role == 'admin' %}
+          <button class="btn btn-danger btn-sm" data-action="delete" data-id="${s.id}" data-name="${s.name}">
+            Delete
+          </button>
+          {% endif %}
+        </td>
+      `;
+      serversTableBody.appendChild(row);
+    }
+  }
+
+  async function loadServers() {
+    try {
+      const res = await fetch('/api/servers', { credentials: 'same-origin' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        showDashMessage(data.error || 'Failed to load servers.', 'error');
+        return;
+      }
+      const servers = await res.json();
+      renderServers(servers);
+    } catch (err) {
+      console.error(err);
+      showDashMessage('Error loading servers.', 'error');
+    }
+  }
+
+  // --- Restart modal wiring (admin only) ---
+  let pendingRestartId = null;
+  let pendingRestartName = null;
+
+  const restartModalBackdrop = document.getElementById('restart-modal-backdrop');
+  const restartModalName = document.getElementById('restart-modal-name');
+  const restartModalCancel = document.getElementById('restart-modal-cancel');
+  const restartModalConfirm = document.getElementById('restart-modal-confirm');
+
+  function openRestartModal(id, name) {
+    pendingRestartId = id;
+    pendingRestartName = name;
+    if (restartModalName) {
+      restartModalName.textContent = name;
+    }
+    if (restartModalBackdrop) {
+      restartModalBackdrop.style.display = 'flex';
+    }
+  }
+
+  function closeRestartModal() {
+    pendingRestartId = null;
+    pendingRestartName = null;
+    if (restartModalBackdrop) {
+      restartModalBackdrop.style.display = 'none';
+    }
+  }
+
+  if (restartModalBackdrop) {
+    restartModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === restartModalBackdrop) {
+        closeRestartModal();
+      }
+    });
+  }
+  if (restartModalCancel) {
+    restartModalCancel.addEventListener('click', () => {
+      closeRestartModal();
+    });
+  }
+  if (restartModalConfirm) {
+    restartModalConfirm.addEventListener('click', async () => {
+      if (!pendingRestartId) {
+        closeRestartModal();
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/servers/${pendingRestartId}/restart`, {
+          method: 'POST',
+          credentials: 'same-origin'
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          showDashMessage(data.error || 'Failed to restart server.', 'error');
+        } else {
+          showDashMessage('Server restarted.', 'success');
+          loadServers();
+        }
+      } catch (err) {
+        console.error(err);
+        showDashMessage('Error restarting server.', 'error');
+      } finally {
+        closeRestartModal();
+      }
+    });
+  }
+
+  // --- Stop modal wiring (admin only) ---
+  let pendingStopId = null;
+  let pendingStopName = null;
+
+  const stopModalBackdrop = document.getElementById('stop-modal-backdrop');
+  const stopModalName = document.getElementById('stop-modal-name');
+  const stopModalCancel = document.getElementById('stop-modal-cancel');
+  const stopModalConfirm = document.getElementById('stop-modal-confirm');
+
+  function openStopModal(id, name) {
+    pendingStopId = id;
+    pendingStopName = name;
+    if (stopModalName) {
+      stopModalName.textContent = name;
+    }
+    if (stopModalBackdrop) {
+      stopModalBackdrop.style.display = 'flex';
+    }
+  }
+
+  function closeStopModal() {
+    pendingStopId = null;
+    pendingStopName = null;
+    if (stopModalBackdrop) {
+      stopModalBackdrop.style.display = 'none';
+    }
+  }
+
+  if (stopModalBackdrop) {
+    stopModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === stopModalBackdrop) {
+        closeStopModal();
+      }
+    });
+  }
+  if (stopModalCancel) {
+    stopModalCancel.addEventListener('click', () => {
+      closeStopModal();
+    });
+  }
+  if (stopModalConfirm) {
+    stopModalConfirm.addEventListener('click', async () => {
+      if (!pendingStopId) {
+        closeStopModal();
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/servers/${pendingStopId}/stop`, {
+          method: 'POST',
+          credentials: 'same-origin'
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          showDashMessage(data.error || 'Failed to stop server.', 'error');
+        } else {
+          showDashMessage('Server stopped.', 'success');
+          loadServers();
+        }
+      } catch (err) {
+        console.error(err);
+        showDashMessage('Error stopping server.', 'error');
+      } finally {
+        closeStopModal();
+      }
+    });
+  }
+
+  // --- Delete modal wiring (admin only) ---
+  let pendingDeleteId = null;
+  let pendingDeleteName = null;
+
+  const deleteModalBackdrop = document.getElementById('delete-modal-backdrop');
+  const deleteModalName = document.getElementById('delete-modal-name');
+  const deleteModalCancel = document.getElementById('delete-modal-cancel');
+  const deleteModalConfirm = document.getElementById('delete-modal-confirm');
+
+  function openDeleteModal(id, name) {
+    pendingDeleteId = id;
+    pendingDeleteName = name;
+    if (deleteModalName) {
+      deleteModalName.textContent = name;
+    }
+    if (deleteModalBackdrop) {
+      deleteModalBackdrop.style.display = 'flex';
+    }
+  }
+
+  function closeDeleteModal() {
+    pendingDeleteId = null;
+    pendingDeleteName = null;
+    if (deleteModalBackdrop) {
+      deleteModalBackdrop.style.display = 'none';
+    }
+  }
+
+  if (deleteModalBackdrop) {
+    deleteModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === deleteModalBackdrop) {
+        closeDeleteModal();
+      }
+    });
+  }
+  if (deleteModalCancel) {
+    deleteModalCancel.addEventListener('click', () => {
+      closeDeleteModal();
+    });
+  }
+  if (deleteModalConfirm) {
+    deleteModalConfirm.addEventListener('click', async () => {
+      if (!pendingDeleteId) {
+        closeDeleteModal();
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/servers/${pendingDeleteId}`, {
+          method: 'DELETE',
+          credentials: 'same-origin'
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          showDashMessage(data.error || 'Failed to delete server.', 'error');
+        } else {
+          showDashMessage('Server deleted.', 'success');
+          loadServers();
+        }
+      } catch (err) {
+        console.error(err);
+        showDashMessage('Error deleting server.', 'error');
+      } finally {
+        closeDeleteModal();
+      }
+    });
+  }
+
+  serversTableBody.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+
+    const id = btn.getAttribute('data-id');
+    const action = btn.getAttribute('data-action');
+
+    // DELETE
+    if (action === 'delete') {
+      const name = btn.getAttribute('data-name');
+      if (deleteModalBackdrop) {
+        openDeleteModal(id, name);
+        return;
+      }
+    }
+
+    // RESTART -> modal if available
+    if (action === 'restart') {
+      const name = btn.getAttribute('data-name');
+      if (restartModalBackdrop) {
+        openRestartModal(id, name);
+        return;
+      }
+    }
+
+    // STOP -> modal if available
+    if (action === 'stop') {
+      const name = btn.getAttribute('data-name');
+      if (stopModalBackdrop) {
+        openStopModal(id, name);
+        return;
+      }
+    }
+
+    // START / direct fallback for stop/restart if no modals
+    let endpoint = null;
+    if (action === 'start') endpoint = `/api/servers/${id}/start`;
+    if (action === 'stop' && !stopModalBackdrop) endpoint = `/api/servers/${id}/stop`;
+    if (action === 'restart' && !restartModalBackdrop) endpoint = `/api/servers/${id}/restart`;
+
+    if (!endpoint) return;
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        credentials: 'same-origin'
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        showDashMessage(data.error || `Failed to ${action} server.`, 'error');
+        return;
+      }
+      showDashMessage(`Server ${action}ed successfully.`, 'success');
+      loadServers();
+    } catch (err) {
+      console.error(err);
+      showDashMessage(`Error trying to ${action} server.`, 'error');
+    }
+  });
+
+  // New server UI
+  const newServerBtn = document.getElementById('btn-new-server');
+  const newServerCard = document.getElementById('new-server-card');
+  const newServerForm = document.getElementById('new-server-form');
+  const newServerCancel = document.getElementById('ns-cancel');
+  const newServerAlert = document.getElementById('new-server-alert');
+
+  function showNewServerCard(show) {
+    if (!newServerCard) return;
+    newServerCard.style.display = show ? 'block' : 'none';
+    if (!show) {
+      newServerForm.reset();
+      newServerAlert.style.display = 'none';
+    }
+  }
+
+  if (newServerBtn) {
+    newServerBtn.addEventListener('click', () => showNewServerCard(true));
+  }
+  if (newServerCancel) {
+    newServerCancel.addEventListener('click', () => showNewServerCard(false));
+  }
+
+  function showNewServerMessage(msg, type) {
+    newServerAlert.textContent = msg;
+    newServerAlert.className = 'alert ' + (type === 'error' ? 'alert-error' : 'alert-success');
+    newServerAlert.style.display = 'block';
+  }
+
+  if (newServerForm) {
+    newServerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      newServerAlert.style.display = 'none';
+
+      const name = document.getElementById('ns-name').value.trim();
+      const world_name = document.getElementById('ns-world').value.trim();
+      const password = document.getElementById('ns-password').value;
+
+      try {
+        const res = await fetch('/api/servers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ name, world_name, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showNewServerMessage(data.error || 'Failed to create server.', 'error');
+          return;
+        }
+
+        showNewServerMessage('Server created and starting…', 'success');
+        loadServers();
+        setTimeout(() => showNewServerCard(false), 800);
+      } catch (err) {
+        console.error(err);
+        showNewServerMessage('Unexpected error creating server.', 'error');
+      }
+    });
+  }
+
+  // Initial load
+  loadServers();
+</script>
+{% endblock %}
+

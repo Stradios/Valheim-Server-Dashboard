@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}First-time Setup • ValPanel{% endblock %}
+
+{% block content %}
+<div class="page-header" style="text-align:center; margin-bottom:2.2rem;">
+  <div class="page-eyebrow">First-time setup</div>
+  <h1 class="page-title">Create Admin Account</h1>
+  <p class="page-subtitle" style="margin: 0 auto; max-width: 32rem;">
+    No admin exists yet. Create the first administrator account for this ValPanel instance.
+    You can later invite moderators by email from the dashboard.
+  </p>
+</div>
+
+<div class="card card-narrow">
+  <div id="setup-alert" class="alert" style="display:none;"></div>
+
+  <form id="setup-form">
+    <div class="form-grid">
+      <div>
+        <label for="email">Admin Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" required>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <span class="icon">⭐</span> Create Admin
+      </button>
+      <p class="form-note">
+        This admin has full control of servers, invites, and settings.
+      </p>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script>
+  const setupForm = document.getElementById('setup-form');
+  const setupAlert = document.getElementById('setup-alert');
+
+  function showSetupMessage(msg, type) {
+    setupAlert.textContent = msg;
+    setupAlert.className = 'alert ' + (type === 'error' ? 'alert-error' : 'alert-success');
+    setupAlert.style.display = 'block';
+  }
+
+  setupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setupAlert.style.display = 'none';
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+      const res = await fetch('/api/setup/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showSetupMessage(data.error || 'Failed to create admin.', 'error');
+        return;
+      }
+
+      showSetupMessage('Admin created, redirecting…', 'success');
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 800);
+    } catch (err) {
+      console.error(err);
+      showSetupMessage('Unexpected error. Check browser console.', 'error');
+    }
+  });
+</script>
+{% endblock %}
+
