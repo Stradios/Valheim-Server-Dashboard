@@ -1,138 +1,707 @@
-<svg width="1200" height="320" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background gradient -->
-  <defs>
-    <linearGradient id="bgGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#05060a"/>
-      <stop offset="50%" stop-color="#101521"/>
-      <stop offset="100%" stop-color="#141920"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1200"
+   height="320"
+   viewBox="0 0 1200 320"
+   version="1.1"
+   id="svg29"
+   sodipodi:docname="valpanel-banner.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview29"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.6233333"
+     inkscape:cx="170.42318"
+     inkscape:cy="145.99816"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g22" />
+  <defs
+     id="defs13">
+    <linearGradient
+       id="bgGradient"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         offset="0"
+         stop-color="#05060a"
+         id="stop1" />
+      <stop
+         offset="0.5"
+         stop-color="#101521"
+         id="stop2" />
+      <stop
+         offset="1"
+         stop-color="#141920"
+         id="stop3" />
     </linearGradient>
-
-    <linearGradient id="accentGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f2a65a"/>
-      <stop offset="50%" stop-color="#ffcc66"/>
-      <stop offset="100%" stop-color="#f58549"/>
+    <linearGradient
+       id="accentGradient"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1">
+      <stop
+         offset="0"
+         stop-color="#f2a65a"
+         id="stop4" />
+      <stop
+         offset="0.5"
+         stop-color="#ffcc66"
+         id="stop5" />
+      <stop
+         offset="1"
+         stop-color="#f58549"
+         id="stop6" />
     </linearGradient>
-
-    <linearGradient id="mountainNear" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#222733"/>
-      <stop offset="100%" stop-color="#151821"/>
+    <linearGradient
+       id="mountainNear"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         offset="0"
+         stop-color="#222733"
+         id="stop7" />
+      <stop
+         offset="1"
+         stop-color="#151821"
+         id="stop8" />
     </linearGradient>
-
-    <linearGradient id="mountainFar" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2a3242"/>
-      <stop offset="100%" stop-color="#171b25"/>
+    <linearGradient
+       id="mountainFar"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         offset="0"
+         stop-color="#2a3242"
+         id="stop9" />
+      <stop
+         offset="1"
+         stop-color="#171b25"
+         id="stop10" />
     </linearGradient>
-
-    <radialGradient id="sunGlow" cx="50%" cy="45%" r="30%">
-      <stop offset="0%" stop-color="#ffdd99" stop-opacity="0.95"/>
-      <stop offset="40%" stop-color="#f2a65a" stop-opacity="0.7"/>
-      <stop offset="100%" stop-color="#f2a65a" stop-opacity="0"/>
+    <radialGradient
+       id="sunGlow"
+       cx="50%"
+       cy="45%"
+       r="30%">
+      <stop
+         offset="0"
+         stop-color="#ffdd99"
+         stop-opacity="0.95"
+         id="stop11" />
+      <stop
+         offset="0.4"
+         stop-color="#f2a65a"
+         stop-opacity="0.7"
+         id="stop12" />
+      <stop
+         offset="1"
+         stop-color="#f2a65a"
+         stop-opacity="0"
+         id="stop13" />
     </radialGradient>
-
-    <!-- Subtle grid pattern to hint "dashboard" -->
-    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff15" stroke-width="1"/>
+    <pattern
+       id="gridPattern"
+       width="40"
+       height="40"
+       patternUnits="userSpaceOnUse">
+      <path
+         d="M 40 0 L 0 0 0 40"
+         fill="none"
+         stroke="#ffffff15"
+         stroke-width="1"
+         id="path13" />
     </pattern>
-
-    <!-- Soft shadow filter for main panel box -->
-    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.55"/>
+    <filter
+       id="softShadow"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feDropShadow
+         dx="0"
+         dy="10"
+         stdDeviation="12"
+         flood-color="#000000"
+         flood-opacity="0.55" />
     </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12"
+       id="radialGradient13"
+       cx="530.58002"
+       cy="270.51749"
+       fx="530.58002"
+       fy="270.51749"
+       r="291.035"
+       gradientTransform="matrix(1,0,0,0.59920456,0,108.42218)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient12"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#fb6113;stop-opacity:1;"
+         offset="0"
+         id="stop12-3" />
+      <stop
+         style="stop-color:#fb6113;stop-opacity:0;"
+         offset="1"
+         id="stop13-6" />
+    </linearGradient>
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       x1="511.42499"
+       y1="307.04099"
+       x2="511.42499"
+       y2="591.90302"
+       id="gradient-3">
+      <stop
+         offset="0.7396"
+         style="stop-color:#000000;stop-opacity:1;"
+         id="stop25" />
+      <stop
+         offset="1"
+         style="stop-color:#484848;stop-opacity:1;"
+         id="stop26" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient62"
+       x1="513.11084"
+       y1="16.241989"
+       x2="513.11084"
+       y2="872.91913"
+       gradientUnits="userSpaceOnUse"
+       href="#linearGradient60" />
+    <linearGradient
+       id="linearGradient60">
+      <stop
+         style="stop-color:#797979;stop-opacity:1;"
+         offset="0"
+         id="stop61" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0.66560197"
+         id="stop62" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient17"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient16"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#09293e;stop-opacity:1;"
+         offset="0.64846462"
+         id="stop16" />
+      <stop
+         style="stop-color:#09293e;stop-opacity:0;"
+         offset="1"
+         id="stop17" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient13"
+       id="linearGradient23"
+       x1="589.84998"
+       y1="235.42499"
+       x2="589.84998"
+       y2="667.177"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient13"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#d7d7d7;stop-opacity:1;"
+         offset="0.39678955"
+         id="stop23" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop24" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient29"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient30"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient31"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient32"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient33"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient34"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient35"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient36"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient37"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient38"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient39"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient40"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient16"
+       id="linearGradient41"
+       gradientUnits="userSpaceOnUse"
+       x1="451.681"
+       y1="258.59351"
+       x2="451.681"
+       y2="697.29352" />
   </defs>
-
-  <!-- Background -->
-  <rect width="1200" height="320" fill="url(#bgGradient)"/>
-  <rect width="1200" height="320" fill="url(#gridPattern)" opacity="0.55"/>
-
-  <!-- Sun glow behind mountains -->
-  <circle cx="310" cy="135" r="170" fill="url(#sunGlow)" opacity="0.85"/>
-
-  <!-- Distant mountains -->
-  <path d="M -80 230 L 160 110 L 280 180 L 400 100 L 620 230 L 1240 230 L 1240 320 L -80 320 Z"
-        fill="url(#mountainFar)" />
-
-  <!-- Near mountains -->
-  <path d="M -60 250 L 120 150 L 220 210 L 340 140 L 460 220 L 620 150 L 820 245 L 1240 240 L 1240 320 L -60 320 Z"
-        fill="url(#mountainNear)" />
-
-  <!-- Ground foreground strip -->
-  <rect x="0" y="245" width="1200" height="75" fill="#080a0f" opacity="0.95"/>
-
-  <!-- Left-side emblem (simple abstract "V" / mountain icon) -->
-  <g transform="translate(155,160) scale(1.1)">
-    <!-- Outer circle -->
-    <circle cx="0" cy="0" r="56" fill="#05060a" opacity="0.8" />
-    <circle cx="0" cy="0" r="56" fill="none" stroke="#ffffff25" stroke-width="2"/>
-
-    <!-- Inner gradient ring -->
-    <circle cx="0" cy="0" r="44" fill="none" stroke="url(#accentGradient)" stroke-width="3"/>
-
-    <!-- Stylized V / mountains -->
-    <path d="M -26 8 L -4 -20 L 9 0 L 23 -28 L 36 8 L 26 18 L 10 -2 L 0 14 L -16 -6 L -26 18 Z"
-          fill="url(#accentGradient)" opacity="0.9"/>
-
-    <!-- Tiny dots around ring (hint of “servers / nodes”) -->
-    <circle cx="0" cy="-52" r="2.7" fill="#ffcc66" opacity="0.85"/>
-    <circle cx="45" cy="-22" r="2.7" fill="#ffcc66" opacity="0.7"/>
-    <circle cx="40" cy="30" r="2.7" fill="#ffcc66" opacity="0.6"/>
-    <circle cx="-40" cy="30" r="2.7" fill="#ffcc66" opacity="0.6"/>
-    <circle cx="-45" cy="-22" r="2.7" fill="#ffcc66" opacity="0.7"/>
+  <rect
+     width="1200"
+     height="320"
+     fill="url(#bgGradient)"
+     id="rect13" />
+  <rect
+     width="1200"
+     height="320"
+     fill="url(#gridPattern)"
+     opacity="0.55"
+     id="rect14" />
+  <circle
+     cx="310"
+     cy="135"
+     r="170"
+     fill="url(#sunGlow)"
+     style=""
+     id="circle14" />
+  <path
+     d="M 1.577 230 L 219.56 110 L 328.552 180 L 437.543 100 L 637.361 230 L 1200.48 230 L 1200.48 320 L 1.577 320 L 1.577 230 Z"
+     fill="url(#mountainFar)"
+     style=""
+     id="path14" />
+  <path
+     d="M 0.195 250 L 166.352 150 L 258.661 210 L 369.432 140 L 480.204 220 L 627.899 150 L 812.518 245 L 1200.22 240 L 1200.22 320 L 0.195 320 L 0.195 250 Z"
+     fill="url(#mountainNear)"
+     style=""
+     id="path15" />
+  <rect
+     x="0"
+     y="245"
+     width="1200"
+     height="75"
+     fill="#080a0f"
+     opacity="0.95"
+     id="rect15" />
+  <g
+     transform="translate(155,160) scale(1.1)"
+     id="g22">
+    <circle
+       cx="0"
+       cy="0"
+       r="56"
+       fill="#05060a"
+       opacity="0.8"
+       id="circle15" />
+    <circle
+       cx="0"
+       cy="0"
+       r="56"
+       fill="none"
+       stroke="#ffffff25"
+       stroke-width="2"
+       id="circle16" />
+    <g
+       style="display:inline;visibility:hidden"
+       id="g41"
+       transform="matrix(0.09365141,0,0,0.09365141,-48.176845,-37.687818)">
+      <title
+         id="title30">Nort-sun</title>
+      <g
+         id="g1">
+        <polygon
+           points="631.431,318.923 718.513,292.519 655.011,336.258 821.615,281.598 666.427,399.678 764.975,428.198 484.349,444.907 285.261,365.887 387.381,378.534 239.545,244.342 427.986,315.659 343.556,158.549 470.135,268.376 448.847,200.125 489.934,251.878 519.939,96.128 552.152,247.565 605,189.029 579.079,274.513 731.564,137.509 "
+           style="visibility:visible;fill:url(#radialGradient13)"
+           id="polygon1" />
+        <path
+           style="display:inline;visibility:visible;fill:#fedd5a;fill-opacity:1;stroke:#303030"
+           d="m 623.09,411.821 c 0.205,0.832 4.009,-15.687 2.785,-20.649 l 73.882,-44.587 -74.788,21.737 c 6.594,-1.347 -18.249,-53.409 -22.649,-52.505 l 42.348,-63.824 -56.797,48.821 c 4.715,-0.539 -30.997,-24.098 -54.777,-21.623 l -14.752,-65.228 -7.374,65.007 c -11.053,-3.182 -49.042,12.906 -42.332,14.885 l -47.059,-41.305 31.141,53.633 c -11.086,3.59 -26.887,36.013 -23.663,34.969 l -81.11,-34.294 73.449,57.015 c -1.007,0.112 -1.949,37.022 0.766,36.719 z"
+           id="path31" />
+        <polygon
+           points="651.368,417.075 661.286,409.014 673.615,415.298 689.022,432.345 711.7,459.689 730.939,483.253 739.156,489.014 759.672,492.687 765.648,493.782 790.244,516.748 805.844,530.169 817.619,542.745 828.193,553.322 842.459,561.332 863.825,570.524 890.187,578.568 912.074,584.617 937.372,590.564 85.478,591.903 102.23,589.54 133.812,581.312 156.319,572.735 176.677,562.222 199.513,549.693 208.064,544.616 267.569,482.998 280.658,487.118 304.061,476.206 323.074,453.506 341.175,432.385 365.746,402.618 378.294,399.407 408.185,423.908 411.016,424.971 414.583,423.393 441.375,395.362 451.311,381.287 464.18,357.575 469.844,347.681 474.099,343.269 484.299,332.603 494.215,322.006 512.912,307.041 543.99,321.891 587.43,378.78 605.4,403.809 626.464,430.946 629.227,432.079 632.16,431.354 641.162,424.57 "
+           style="display:inline;visibility:visible;fill:url(#gradient-3);paint-order:stroke"
+           id="polygon32" />
+        <path
+           d="m 87.514,591.733 c 1.16,2.825 102.453,-48.898 101.541,-51.119 l 74.381,-66.694 5.782,-1.641 11.296,2.497 15.223,-6.041 37.884,-45.615 23.117,-26.15 10.938,-6.994 13.595,-1.372 28.565,24.077 16.69,-14.977 16.186,-19.029 8.258,-18.261 15.908,-23.66 18.728,-19.146 25.656,-19.972 36.425,16.644 82.492,106.183 11.803,-8.618 14.573,-11.326 8.825,-1.806 8.795,2.085 16.853,13.135 27.825,35.16 21.305,24.737 26.222,3.956 c 2.685,-0.924 22.29,19.318 21.84,19.473 l 31.851,29.326 11.052,11.807 27.926,17.559 37.185,18.571 44.5,17.046 -41.686,-7.515 -30.602,-10.555 c -6.939,-3.168 -49.528,-21.401 -44.794,-22.284 l -37.397,-36.456 -21.999,-20.529 -21.342,-3.357 c -0.278,0.754 -13.145,-4.765 -12.395,-6.798 l -7.942,-8.988 -6.928,-10.217 -7.754,-9.015 -7.452,-8.982 -10.03,-11.912 -9.733,-11.346 -6.303,-6.973 -12.851,-6.855 -17.907,13.795 -9.336,6.776 -7.103,1.357 -6.832,-8.457 -9.89,-13.285 -31.369,-41.582 -15.807,-20.137 -12.532,-17.157 -6.539,-9.462 -30.618,-14.859 -15.019,11.468 -25.371,25.629 -5.903,8.483 -7.031,12.343 -13.064,22.992 -10.436,13.329 -19.703,19.379 -4.186,4.763 -4.693,-1.034 -18.636,-15.663 -11.418,-8.96 -11.871,2.917 -20.202,24.342 -14.456,15.633 -14.492,17.973 -11.509,16.133 -13.865,5.646 -12.595,5.425 -11.375,-4.47 -13.903,14.495 -18.677,19.035 -11.548,12.409 -17.066,16.611 -14.532,9.461 -27.104,12.933 -28.945,12.328 z"
+           style="display:inline;visibility:visible;fill:url(#linearGradient62);fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-miterlimit:3.99;stroke-dasharray:none;paint-order:stroke markers"
+           id="path32" />
+      </g>
+      <g
+         style="display:inline;visibility:visible;fill:url(#linearGradient38);fill-opacity:1"
+         id="g38">
+        <path
+           d="M 232.331,559.418 262.3,546.84 286.193,516.365 Z"
+           style="display:inline;fill:url(#linearGradient29);fill-opacity:1"
+           id="path33" />
+        <polygon
+           points="326.57,508.393 298.725,535.892 286.408,548.1 302.201,541.568 328.858,525.483 334.483,522.77 337.671,519.353 360.505,473.584 353.247,478.009 341.714,490.563 "
+           style="fill:url(#linearGradient30);fill-opacity:1"
+           id="polygon33" />
+        <path
+           d="m 367.659,525.951 10.872,7.885 12.636,10.487 c 0.599,-0.177 21.07,17.267 20.789,17.35 -0.356,0.44 -23.964,-15.077 -23.496,-15.655 -0.461,0.26 -21.075,-19.913 -20.801,-20.067 z"
+           style="fill:url(#linearGradient31);fill-opacity:1"
+           id="path34" />
+        <path
+           d="m 491.423,384.131 -6.553,5.501 -5.584,6.714 -6.837,6.441 -12.812,18.971 -5.944,12.589 -7.6,14.515 -4.374,8.402 16.916,-18.389 8.46,-8.194 c 0.972,0.491 24.689,-46.368 24.328,-46.55 z"
+           style="fill:url(#linearGradient32);fill-opacity:1"
+           id="path35" />
+        <path
+           d="m 489.676,426.098 -11.265,9.383 -5.923,3.062 -19.422,37.815 z"
+           style="fill:url(#linearGradient33);fill-opacity:1"
+           id="path36" />
+        <polygon
+           points="511.723,548.42 471.983,488.686 486.66,504.856 498.485,514.315 "
+           style="fill:url(#linearGradient34);fill-opacity:1"
+           id="polygon36" />
+        <polygon
+           points="630.18,571.756 612.282,565.389 587.791,549.959 605.51,556.45 615.595,559.988 "
+           style="fill:url(#linearGradient35);fill-opacity:1"
+           id="polygon37" />
+        <path
+           d="m 590.557,472.438 -12.366,-43.671 14.278,14.815 7.918,12.163 14.51,14.23 8.576,10.348 14.051,22.302 c -0.268,0.658 -48.012,-27.618 -46.967,-30.187 z"
+           style="display:inline;fill:url(#linearGradient36);fill-opacity:1"
+           id="path37" />
+        <polygon
+           points="656.892,493.926 671.031,504.692 654.239,470.692 645.116,459.602 "
+           style="display:inline;fill:url(#linearGradient37);fill-opacity:1"
+           id="polygon38" />
+      </g>
+      <g
+         style="display:inline;visibility:visible;fill:url(#linearGradient17);fill-opacity:1"
+         id="g40">
+        <polygon
+           points="378.008,464.362 386.371,490.701 406.781,507.097 433.313,535.839 416.106,502.042 449.704,522.628 480.124,551.913 454.828,514.73 428.036,489.254 422.288,481.582 407.206,452.758 373.974,422.565 404.907,482.262 "
+           style="fill:url(#linearGradient39);fill-opacity:1"
+           id="polygon39" />
+        <polygon
+           points="513.137,447.949 546.517,506.945 561.737,526.437 550.872,496.908 586.561,513.694 615.832,536.953 674.441,568.036 643.878,542.45 632.265,535.496 591.582,478.632 577.527,427.929 592.242,441.848 599.392,453.021 623.229,479.194 602.641,438.368 583.077,406.829 559.979,379.097 542.049,353.337 519.172,333.223 523.659,353.165 541.108,380.973 555.111,408.915 524.784,378.286 528.085,393.545 529.659,408.826 540.811,420.766 572.646,487.412 540.184,463.951 "
+           style="fill:url(#linearGradient40);fill-opacity:1"
+           id="polygon40" />
+        <path
+           style="fill:url(#linearGradient41);fill-opacity:1"
+           d="m 667.481,437.388 2.859,7.621 9.199,27.899 17.391,16.608 13.269,19.611 -24.164,-17.414 10.898,28.801 32.976,26.006 15.23,12.167 -21.511,-31.428 42.748,23.529 19.46,9.792 19.89,8.799 -57.39,-58.219 8.661,22.675 -18.593,-12.5 c -3.691,-11.101 -65.178,-84.05 -70.923,-83.947 z"
+           id="path40" />
+      </g>
+    </g>
+    <circle
+       cx="0"
+       cy="0"
+       r="44"
+       fill="none"
+       stroke="url(#accentGradient)"
+       stroke-width="3"
+       id="circle17" />
+    <circle
+       cx="0"
+       cy="-52"
+       r="2.7"
+       fill="#ffcc66"
+       opacity="0.85"
+       id="circle18" />
+    <circle
+       cx="45"
+       cy="-22"
+       r="2.7"
+       fill="#ffcc66"
+       opacity="0.7"
+       id="circle19" />
+    <circle
+       cx="40"
+       cy="30"
+       r="2.7"
+       fill="#ffcc66"
+       opacity="0.6"
+       id="circle20" />
+    <circle
+       cx="-40"
+       cy="30"
+       r="2.7"
+       fill="#ffcc66"
+       opacity="0.6"
+       id="circle21" />
+    <circle
+       cx="-45"
+       cy="-22"
+       r="2.7"
+       fill="#ffcc66"
+       opacity="0.7"
+       id="circle22" />
   </g>
-
-  <!-- Main panel box -->
-  <g filter="url(#softShadow)">
-    <rect x="270" y="70" width="810" height="170" rx="24" ry="24"
-          fill="#0c1018" opacity="0.96" stroke="#ffffff18" stroke-width="1.5"/>
-    <rect x="270" y="70" width="810" height="170" rx="24" ry="24"
-          fill="url(#gridPattern)" opacity="0.18"/>
+  <g
+     filter="url(#softShadow)"
+     style=""
+     transform="matrix(1.041654, 0, 0, 1, 21.838287, -2.461365)"
+     id="g23">
+    <rect
+       x="270"
+       y="70"
+       width="810"
+       height="170"
+       rx="24"
+       ry="24"
+       fill="#0c1018"
+       opacity="0.96"
+       stroke="#ffffff18"
+       stroke-width="1.5"
+       id="rect22" />
+    <rect
+       x="270"
+       y="70"
+       width="810"
+       height="170"
+       rx="24"
+       ry="24"
+       fill="url(#gridPattern)"
+       opacity="0.18"
+       id="rect23" />
   </g>
-
-  <!-- Text: Title & subtitle -->
-  <g font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
-    <!-- Title -->
-    <text x="305" y="130"
-          font-size="34"
-          font-weight="700"
-          letter-spacing="0.04em"
-          fill="#f7f7fb">
+  <g
+     font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+     transform="matrix(1, 0, 0, 1, 33.084923, -2.461365)"
+     id="g28">
+    <text
+       x="305"
+       y="130"
+       font-size="34"
+       font-weight="700"
+       letter-spacing="0.04em"
+       fill="#f7f7fb"
+       style="white-space: pre;"
+       id="text23">
       ValPanel • Valheim Server Dashboard
     </text>
-
-    <!-- Subtitle -->
-    <text x="305" y="165"
-          font-size="17"
-          fill="#c4cad8">
+    <text
+       x="305"
+       y="165"
+       font-size="17"
+       fill="#c4cad8"
+       style="white-space: pre;"
+       id="text24">
       Manage multiple Valheim dedicated servers with a modern web dashboard powered by Docker.
     </text>
-
-    <!-- Small feature pills -->
-    <g font-size="13" font-weight="500">
-      <!-- Pill 1 -->
-      <rect x="305" y="185" rx="999" ry="999" width="188" height="30"
-            fill="#151c29" stroke="#ffffff20" stroke-width="1"/>
-      <circle cx="325" cy="200" r="4" fill="url(#accentGradient)"/>
-      <text x="340" y="204" fill="#e2e7f5">Multi-server management</text>
-
-      <!-- Pill 2 -->
-      <rect x="510" y="185" rx="999" ry="999" width="192" height="30"
-            fill="#151c29" stroke="#ffffff20" stroke-width="1"/>
-      <circle cx="530" cy="200" r="4" fill="url(#accentGradient)"/>
-      <text x="545" y="204" fill="#e2e7f5">Auto port allocation</text>
-
-      <!-- Pill 3 -->
-      <rect x="720" y="185" rx="999" ry="999" width="207" height="30"
-            fill="#151c29" stroke="#ffffff20" stroke-width="1"/>
-      <circle cx="740" cy="200" r="4" fill="url(#accentGradient)"/>
-      <text x="755" y="204" fill="#e2e7f5">Start • Stop • Restart</text>
+    <g
+       font-size="13"
+       font-weight="500"
+       id="g27">
+      <rect
+         x="305"
+         y="185"
+         rx="999"
+         ry="999"
+         width="188"
+         height="30"
+         fill="#151c29"
+         stroke="#ffffff20"
+         stroke-width="1"
+         id="rect24" />
+      <circle
+         cx="325"
+         cy="200"
+         r="4"
+         fill="url(#accentGradient)"
+         id="circle24" />
+      <text
+         x="340"
+         y="204"
+         fill="#e2e7f5"
+         style="white-space: pre;"
+         transform="matrix(0.832708, 0, 0, 1, 56.879414, 0)"
+         id="text25">Multi-server management</text>
+      <rect
+         x="510"
+         y="185"
+         rx="999"
+         ry="999"
+         width="192"
+         height="30"
+         fill="#151c29"
+         stroke="#ffffff20"
+         stroke-width="1"
+         id="rect25" />
+      <circle
+         cx="530"
+         cy="200"
+         r="4"
+         fill="url(#accentGradient)"
+         id="circle25" />
+      <text
+         x="545"
+         y="204"
+         fill="#e2e7f5"
+         style="white-space: pre;"
+         id="text26">Auto port allocation</text>
+      <rect
+         x="720"
+         y="185"
+         rx="999"
+         ry="999"
+         width="207"
+         height="30"
+         fill="#151c29"
+         stroke="#ffffff20"
+         stroke-width="1"
+         id="rect26" />
+      <circle
+         cx="740"
+         cy="200"
+         r="4"
+         fill="url(#accentGradient)"
+         id="circle26" />
+      <text
+         x="755"
+         y="204"
+         fill="#e2e7f5"
+         style="white-space: pre;"
+         id="text27">Start • Stop • Restart</text>
     </g>
   </g>
-
-  <!-- Bottom-right tiny "open source" label -->
-  <g font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-     font-size="11" fill="#9aa3ba" opacity="0.85">
-    <rect x="935" y="212" width="127" height="26" rx="13" ry="13"
-          fill="#101520" stroke="#ffffff18" stroke-width="1"/>
-    <circle cx="951" cy="225" r="4" fill="url(#accentGradient)"/>
-    <text x="962" y="228">Open-source • GPL-3.0</text>
+  <g
+     font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+     font-size="11"
+     fill="#9aa3ba"
+     opacity="0.85"
+     style=""
+     transform="matrix(0.916047, 0, 0, 1, 103.049385, -5.723063)"
+     id="g29">
+    <rect
+       x="935"
+       y="212"
+       width="168.952"
+       height="26"
+       rx="13"
+       ry="13"
+       fill="#101520"
+       stroke="#ffffff18"
+       stroke-width="1"
+       style=""
+       id="rect28" />
+    <circle
+       cx="951"
+       cy="225"
+       r="4"
+       fill="url(#accentGradient)"
+       id="circle28" />
+    <text
+       x="962"
+       y="228"
+       style="white-space: pre;"
+       id="text28">Open-source • GPL-3.0</text>
   </g>
 </svg>
