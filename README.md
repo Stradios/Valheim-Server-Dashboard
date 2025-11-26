@@ -28,9 +28,9 @@ ValPanel is a lightweight control plane for running multiple Valheim dedicated s
 
 ## Why ValPanel?
 - **CasaOS / TrueNAS / Proxmox friendly** – drop-in container with Docker socket access
-- **No CLI gymnastics** – web UI + REST API for everything from provisioning to deletion
-- **Crash safe** – restart stuck servers, recreate containers, and tail logs from the panel
-- **Role-aware** – admins can invite moderators with scoped permissions
+- **No CLI gymnastics** – web UI + REST API for everything from provisioning to deletion (in work) 
+- **Crash safe** – restart stuck servers, recreate containers, and tail logs from the panel (in work)
+- **Role-aware** – admins can invite moderators with scoped permissions (in work)
 
 ## Features
 - Multi-server orchestration with automatic, non-overlapping UDP port allocation
